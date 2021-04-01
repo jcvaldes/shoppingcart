@@ -1,9 +1,23 @@
 // const carrito = document.querySelector('#carrito')
 const productList = $('#product-list')[0] //document.querySelector('#product-list')
-const contenedorCarrito = document.querySelector('#cart-container')
-const totalPrice = document.querySelector('#totalPrice')
+const contenedorCarrito = $('#cart-container')[0] // document.querySelector('#cart-container')
+const totalPrice = $('#totalPrice')[0]
 let shoppingCart = loadLocalStorage()
 
+$(".fadeIn").hide(0).delay(200).fadeIn(1000);
+$(".pulse").animate(
+  {
+    width: "100%",
+    opacity: 0.4,
+    padding: "0.1in",
+    fontSize: "2em",
+    borderWidth: "5px",
+  },
+  500
+);
+function closePromo() {
+  $('.promoWrap').css('display', 'none');
+}
 // Listeners
 cargarListeners()
 
