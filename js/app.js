@@ -2,7 +2,9 @@
 const productList = $('#product-list')[0] //document.querySelector('#product-list')
 const contenedorCarrito = $('#cart-container')[0] // document.querySelector('#cart-container')
 const totalPrice = $('#totalPrice')[0]
+debugger
 let shoppingCart = loadLocalStorage()
+calcCountProducts();
 
 $(".fadeIn").hide(0).delay(200).fadeIn(1000);
 $(".pulse").animate(
@@ -15,6 +17,54 @@ $(".pulse").animate(
   },
   500
 );
+
+$(document).ready(function () {
+  const APIURL = "../db/products.json";
+  $.ajax({
+    method: "GET",
+    url: APIURL,
+    success: function (products) {
+      debugger
+      for (let i = 0; i < products.length; i++) {
+        render(products[i]);
+      }
+    },
+  });
+});
+
+function calcCountProducts() {
+  $('.Count-products')[0].innerHTML = shoppingCart.length;
+  $('.Count-products')[1].innerHTML = shoppingCart.length;
+}
+function render(product) {
+  $("#card-container").prepend(`
+    <div class="card">
+      <img
+        alt="${product.name}"
+        class="card-img-top"
+        src="${product.image}"
+      />
+      <div class="card-body">
+        <h4 class="card-title">${product.name}</h4>
+        <p class="card-text">
+          <span class="price">Precio: $${product.price}</span>
+          <a
+            href="#"
+            class="btn btn-outline-primary btn-sm ml-5 agregar-carrito"
+            data-id="2"
+            >Agregar Al Carrito</a
+          >
+        </p>
+        <div class="card-footer text-muted">
+          Previamente <span class="tachado">$${product.originalPrice}</span>
+        </div>
+      </div>
+      <div>
+    </div>
+  `);
+}
+
+
 function closePromo() {
   $('.promoWrap').css('display', 'none');
 }
@@ -63,6 +113,7 @@ function leerDatosProducto(producto) {
   } else {
     shoppingCart = [...shoppingCart, productObj]
   }
+
   saveLocalStorage(shoppingCart)
   renderCart(shoppingCart)
 }
